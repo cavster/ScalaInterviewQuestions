@@ -49,7 +49,7 @@ object TapeEquilibrium extends App{
   def solution(A: Array[Int]): Int ={
  //  frist of all need to find min need to loop through keep track of it //need to keep sliting and suming them up
     var i = 0
-    var min = Int.MaxValue//thiscould work very unlikely
+    var min = Int.MaxValue//this could work very unlikely to be this high find a way to clean
     for (i <- 1 until  A.length) {
       //at each point need to compare println frist then keep track
      val sumRight = A.splitAt(i)
@@ -70,4 +70,28 @@ object TapeEquilibrium extends App{
   val testArray =  Array(3,1,2,4,3)
   val testArray2 =  Array(-3,1,-3,4,3)
   println("this is our answer " + solution(testArray2))
+}
+//Alterative solution found on stack overflow
+
+object Solution extends App{
+  def solution(A: Array[Int]): Int = {
+
+    def diffAbs(a: Int, b: Int): Int = if (a - b < 0) b - a else a - b//Sloveing the neg problem better then mine...
+
+    def findDiff(list: List[Int], leftSum: Int, rightSum: Int, diff: Int): Int = {
+      list match {
+        case x1 :: x2 :: xs =>
+          val curDiff = diffAbs(leftSum, rightSum)
+          val bestDiff = if (curDiff < diff) curDiff else diff
+          findDiff(list.tail, leftSum + x1, rightSum - x1, bestDiff)
+        case _ => diff
+      }
+    }
+    val leftSum: Int = A(0)
+    val rightSum: Int = A.foldLeft(0)(_ + _) - A(0)
+    val diff = diffAbs(leftSum, rightSum)
+    findDiff(A.toList.tail, leftSum, rightSum, diff)
+  }
+  val testArray =  Array(3,1,2,4,3)
+  println("this is our answer " + solution(testArray))
 }
