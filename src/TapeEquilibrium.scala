@@ -52,12 +52,12 @@ object TapeEquilibrium extends App{
     var min = Int.MaxValue//this could work very unlikely to be this high find a way to clean
     for (i <- 1 until  A.length) {
       //at each point need to compare println frist then keep track
-     val sumRight = A.splitAt(i)
+     val splitArray = A.splitAt(i)
       //I should split at frist spot ??
-      println(" array 1 sumed" + sumRight._1.sum)
-      println(" array 2 sumed " + sumRight._2.sum)
+      println(" array 1 sumed" + splitArray._1.sum)
+      println(" array 2 sumed " + splitArray._2.sum)
       //now get diff between two
-      var diff = sumRight._1.sum - sumRight._2.sum
+      var diff = splitArray._1.sum - splitArray._2.sum
       println("Diff" + diff)
       if(diff < 0)
         diff = diff * -1
