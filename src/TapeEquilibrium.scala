@@ -71,7 +71,7 @@ object TapeEquilibrium extends App{
   val testArray2 =  Array(-3,1,-3,4,3)
   println("this is our answer " + solution(testArray2))
 }
-//Alterative solution found on stack overflow
+//Alterative solution found on stack overflow with recursion fancy!
 
 object Solution extends App{
   def solution(A: Array[Int]): Int = {
@@ -79,17 +79,21 @@ object Solution extends App{
     def diffAbs(a: Int, b: Int): Int = if (a - b < 0) b - a else a - b//Sloveing the neg problem better then mine...
 
     def findDiff(list: List[Int], leftSum: Int, rightSum: Int, diff: Int): Int = {
-      list match {
+      list match {//ahh ok its 2 or less we get diff straigh away
         case x1 :: x2 :: xs =>
           val curDiff = diffAbs(leftSum, rightSum)
           val bestDiff = if (curDiff < diff) curDiff else diff
-          findDiff(list.tail, leftSum + x1, rightSum - x1, bestDiff)
+          println("this is x1 " + x1)
+          println("this is x2 " + x2)
+          println("this is xs " + xs)
+          findDiff(list.tail, leftSum + x1, rightSum - x1, bestDiff)//then bestDiff is put back in clever!
         case _ => diff
       }
     }
     val leftSum: Int = A(0)
+    println("This is left sum at start" + leftSum)
     val rightSum: Int = A.foldLeft(0)(_ + _) - A(0)
-    val diff = diffAbs(leftSum, rightSum)
+    val diff = diffAbs(leftSum, rightSum)//ok he does it here frist
     findDiff(A.toList.tail, leftSum, rightSum, diff)
   }
   val testArray =  Array(3,1,2,4,3)
