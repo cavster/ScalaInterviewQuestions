@@ -99,3 +99,38 @@ object Solution extends App{
   val testArray =  Array(3,1,2,4,3)
   println("this is our answer " + solution(testArray))
 }
+import scala.math.{min, abs}
+
+object Solution3 extends App {
+  def solution(A: Array[Int]): Int = {
+    if (A.size < 2 || A.size > 100000) sys.error(s"Invalid input - array size: ${A.size}")
+    //good idea for checks
+    val total = A.map(_.toLong).sum//gets total at start nessacary to do this way?
+
+    A.foldLeft[(Int, Long, Long)](-1, -1, 0l) { (t, i) =>
+        if (i < -1000 || i > 1000) sys.error(s"Invalid array element: $i")
+
+        val (x, currentMin, lastLeftSum) = t
+        val index = x + 1//since it starts at -1
+
+        (index + 1 == A.size) match {
+          case true =>
+            //so if the array is do nothing
+            // Do nothing on the last element
+            t
+
+          case false =>
+            val leftSum = lastLeftSum.toLong + A(index).toLong//Keeps adding as we go along
+            val rightSum = total - leftSum
+
+            val thisMin = abs(leftSum- rightSum)
+            val results = if (currentMin == -1) thisMin//could have this this for my problem
+            else min(currentMin, thisMin)
+            (index, results, leftSum)
+            }        }
+
+      }._2.toInt
+  val testArray =  Array(3,1,2,4,3)
+  println("this is our answer " + solution(testArray))
+  //I found this solution harder to read and follow
+}
