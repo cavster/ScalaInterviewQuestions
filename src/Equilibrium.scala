@@ -47,26 +47,20 @@ expected worst-case space complexity is O(N), beyond input storage (not counting
 Elements of input arrays can be modified.
  */
 object Equilibrium extends App {
-  def solution(A: Array[Int]): Int = {
-    //ok so compare left and right side through a loop
-    val i = 0
-    var equilpos = -1
-    for(i <- 0 until A.length){
+  def solution(A: Array[Int]): Int ={
+    var i = 0
+    var min = Int.MaxValue
+    for (i <- 1 until  A.length) {
       val splitArray = A.splitAt(i)
-      //note we have to remove the place where its at
-      //what its a negativ number
-      val valueAtCurrantIndex = A(i)
-      val splitArrayLeftSum = splitArray._1.sum
-      val splitArrayRightSum = splitArray._2.sum - valueAtCurrantIndex
-      println("Left sum " + i + " " + splitArrayLeftSum)
-      println("Right sum " + i + " " + splitArrayRightSum)
-      if(splitArrayLeftSum == splitArrayRightSum){
-        println("we were in here")
-        equilpos = A(i)}
+      var diff = splitArray._1.sum - splitArray._2.sum
+      if(diff < 0)//For negatives
+        diff = diff * -1
+      if(diff < min)
+        min = diff
     }
-    equilpos
-    // we need to compare left to right  at each stage and see if it the codition is true
+    min
   }
-  val testArray = Array(-1,3,-4,5,1,-6,2,1)
+  // incress performance
+  val testArray = Array(3,1,2,4,3)
   println(solution(testArray))
 }
